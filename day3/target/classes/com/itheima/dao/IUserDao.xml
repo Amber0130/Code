@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.IUserDao">
+    <resultMap id="nameMap" type="com.itheima.domain.User">
+        <id property="userId" column="id"></id>
+        <result property="userName" column="username"></result>
+        <result property="userSex" column="sex"></result>
+        <result property="userBirthday" column="birthday"></result>
+        <result property="userAddress" column="address"></result>
+    </resultMap>
+    <select id="findAll" resultMap="nameMap">
+        select * from user
+    </select>
+    <insert id="saveUser" parameterType="com.itheima.domain.User">
+        <selectKey keyProperty="userId" keyColumn="id" order="AFTER" resultType="Integer">
+            select last_insert_id();
+        </selectKey>
+        insert into user(username,birthday,sex,address)
+                    value(#{userName},#{userBirthday},#{userSex},#{userAddress})
+    </insert>
+    <update id="updateUser" parameterType="com.itheima.domain.User">
+        update user set username=#{userName},birthday=#{userBirthday},sex=#{userSex},address=#{userAddress}
+                            where id=#{userId}
+    </update>
+    <delete id="deleteUse" parameterType="Integer">
+        delete from user where id=#{uid}
+    </delete>
+    <select id="findById" parameterType="Integer" resultType="com.itheima.domain.User">
+        select * from user where id=#{uid}
+    </select>
+    <select id="findbyName" parameterType="String" resultMap="nameMap">
+        select * from user where username like #{username}
+    </select>
+    <select id="findToTal" resultType="Integer">
+        select count(id) from user
+    </select>
+    <select id="findUserByVo" resultType="com.itheima.domain.User" parameterType="com.itheima.domain.QueryVo">
+        select * from user where username like #{user.username}
+    </select>
+</mapper>
