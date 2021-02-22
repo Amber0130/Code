@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--    配置业务层-->
+    <bean id="accountService" class="com.itheima.service.impl.AccountServiceImpl">
+<!--        注入Dao对象-->
+        <property name="accountDao" ref="accountDao"></property>
+    </bean>
+
+    <bean id="accountDao" class="com.itheima.dao.Impl.AccountDaoimpl">
+        <property name="runner" ref="ruuner"></property>
+    </bean>
+    <bean id="ruuner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype">
+<!--        注入数据源-->
+        <constructor-arg name="ds" ref="dateSource"></constructor-arg>
+    </bean>
+<!--    配置数据源-->
+    <bean id="dateSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+<!--        连接数据库的必备信息-->
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/db?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=GMT%2B8&amp;useSSL=false"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="123456"></property>
+    </bean>
+</beans>

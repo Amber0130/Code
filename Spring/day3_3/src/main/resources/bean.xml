@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+<!--    配置Spring的IOC把service对象配置进来-->
+    <bean id="accountservice" class="com.itheima.service.impl.AccountServiceimpl"></bean>
+
+    <bean id="logger" class="com.itheima.utils.Logger"></bean>
+<!--    配置AOP-->
+    <aop:config>
+<!--        前面-->
+        <aop:pointcut id="pt1" expression="execution(* com.itheima.service.impl.*.*(..))"/>
+
+        <!--        配置切面-->
+        <aop:aspect id="logadvice" ref="logger">
+<!--            配置通知的类型 并且建立通知方法和切入点方法的关联-->
+<!--            <aop:before method="beforeprintLog" pointcut-ref="pt1"></aop:before>-->
+<!--            <aop:after-returning method="afterreturnprintLog" pointcut-ref="pt1"></aop:after-returning>-->
+<!--            <aop:after-throwing method="beforethrowingprintLog" pointcut-ref="pt1"></aop:after-throwing>-->
+<!--            <aop:after method="afterprintLog" pointcut-ref="pt1"></aop:after>-->
+<!--配置切入点表达式 expression用于指定表达式内容
+只能写在aop:aspect标签内部使用只能当前切面使用
+它还可以写在aop:aspect外面 变成了所有切面可用
+-->
+<!--            <aop:pointcut id="pt1" expression="execution(* com.itheima.service.impl.*.*(..))"/>-->
+<!--        配置环绕通知-->
+            <aop:around method="arroundpringlog" pointcut-ref="pt1"></aop:around>
+        </aop:aspect>
+
+    </aop:config>
+</beans>
