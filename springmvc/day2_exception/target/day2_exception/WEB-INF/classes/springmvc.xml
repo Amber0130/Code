@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="cn.itcast"></context:component-scan>
+    <bean id="InternalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <mvc:annotation-driven></mvc:annotation-driven>
+    <bean id="sysExceptionResolver" class="cn.itcast.exception.SysExceptionResolver"/>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 哪些方法进行拦截 -->
+            <mvc:mapping path="/user/*"/>
+            <!-- 哪些方法不进行拦截
+            <mvc:exclude-mapping path=""/>
+            -->
+            <!-- 注册拦截器对象 -->
+            <bean class="cn.itcast.interceptors.MyInterceptor1"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <!-- 哪些方法进行拦截 -->
+            <mvc:mapping path="/**"/>
+            <!-- 哪些方法不进行拦截
+            <mvc:exclude-mapping path=""/>
+            -->
+            <!-- 注册拦截器对象 -->
+            <bean class="cn.itcast.interceptors.MyInterceptor2"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>
